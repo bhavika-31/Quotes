@@ -10,10 +10,10 @@ import java.util.Random;
 @RestController
 public class QuoteController {
 
-    private final RateLimiter rateLimiter; // ← your class name
+    private final RateLimiter rateLimiter; 
 
     public QuoteController(RateLimiter rateLimiter) {
-        this.rateLimiter = rateLimiter; // ← inject the RateLimiter
+        this.rateLimiter = rateLimiter; 
     }
 
     private List<String> quotes = List.of(
@@ -28,7 +28,7 @@ public class QuoteController {
     @GetMapping("/api/quote")
     public String getRandomQuote(HttpServletRequest request) {
         String clientIp = request.getRemoteAddr();
-        rateLimiter.checkRateLimit(clientIp); // ← throws exception if over limit
+        rateLimiter.checkRateLimit(clientIp); 
 
         int index = random.nextInt(quotes.size());
         return quotes.get(index);
