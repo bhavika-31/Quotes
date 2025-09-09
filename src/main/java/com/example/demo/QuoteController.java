@@ -31,7 +31,7 @@ public class QuoteController {
     @GetMapping("/api/quote")
     public Map<String, String> getRandomQuote(HttpServletRequest request) {
         String clientIp = request.getRemoteAddr();
-        rateLimiter.checkRateLimit(clientIp); // throws exception if over limit
+        rateLimiter.checkRateLimit(clientIp); 
 
         int index = random.nextInt(quotes.size());
         Map<String, String> response = new HashMap<>();
