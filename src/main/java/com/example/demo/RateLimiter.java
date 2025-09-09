@@ -9,14 +9,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RateLimiter {
     private final Map<String, UserRequestInfo> requestMap = new ConcurrentHashMap<>();
     private static final int MAX_REQUESTS = 5;
-    private static final long TIME_WINDOW = 60 * 1000; // 1 minute in ms
+    private static final long TIME_WINDOW = 60 * 1000; 
 
     public void checkRateLimit(String clientIp) {
         long currentTime = System.currentTimeMillis();
         requestMap.putIfAbsent(clientIp, new UserRequestInfo(0, currentTime));
         UserRequestInfo info = requestMap.get(clientIp);
 
-        // Reset counter after 1 minute
+       
         if (currentTime - info.startTime > TIME_WINDOW) {
             info.count = 0;
             info.startTime = currentTime;
