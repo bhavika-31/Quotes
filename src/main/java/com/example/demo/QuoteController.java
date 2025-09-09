@@ -6,36 +6,37 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class QuoteController {
 
-    private final RateLimiter rateLimiter; 
+    private final RateLimiter rateLimiter;
 
     public QuoteController(RateLimiter rateLimiter) {
-        this.rateLimiter = rateLimiter; 
+        this.rateLimiter = rateLimiter;
     }
 
     private List<String> quotes = List.of(
-            "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
-            "The only way to do great work is to love what you do. - Steve Jobs",
-            "In the middle of every difficulty lies opportunity. - Albert Einstein",
-            "Believe you can and you're halfway there. - Theodore Roosevelt"
+        "Arise, awake and stop not till the goal is reached. - Swami Vivekananda",
+        "Be the change that you wish to see in the world. - Mahatma Gandhi",
+        "The only way to do great work is to love what you do. - Steve Jobs",
+        "Excellence happens not by accident. It is a process. - APJ Abdul Kalam",
+        "Great dreams of great dreamers are always transcended. - Dr. B.R. Ambedkar"
     );
 
     private Random random = new Random();
 
     @GetMapping("/api/quote")
-    public String getRandomQuote(HttpServletRequest request) {
+    public Map<String, String> getRandomQuote(HttpServletRequest request) {
         String clientIp = request.getRemoteAddr();
-        rateLimiter.checkRateLimit(clientIp); 
+        rateLimiter.checkRateLimit(clientIp); // throws exception if over limit
 
         int index = random.nextInt(quotes.size());
-        return quotes.get(index);
+        Map<String, String> response = new HashMap<>();
+        response.put("quote", quotes.get(index));
+        return response;
     }
 }
-
-
-
-
 
